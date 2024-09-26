@@ -2,9 +2,9 @@ pipeline {
     agent any
 
     environment {
-        ANSIBLE_PLAYBOOK = "wordpress.yml"  // Nom du playbook Ansible
-        INVENTORY = "hosts"                    // Fichier d'inventaire Ansible
-        NODES = "server"                     // Groupe d'hôtes ou variables Jenkins
+          // Nom du playbook Ansible
+                            // Fichier d'inventaire Ansible
+                             // Groupe d'hôtes ou variables Jenkins
         ANSIBLE_HOST_KEY_CHECKING = 'false' // Disable host key checking for simplicity
         ANSIBLE_CONFIG = '.ansible.cfg' // Path to your Ansible config file if needed
     }
