@@ -53,7 +53,7 @@ pipeline {
 =======
             steps {
                 // Checkout the code from your repository
-                git url: 'https://github.com/ELkab007/Deploiement.git', branch: 'main'
+                git url: 'https://github.com/ELkab007/CI-CD-Jenkins.git', branch: 'main'
             }
         }
 
