@@ -2,19 +2,15 @@ pipeline {
     agent any
 
     environment {
-<<<<<<< HEAD
         ANSIBLE_PLAYBOOK = "wordpress.yml"  // Nom du playbook Ansible
         INVENTORY = "hosts"                    // Fichier d'inventaire Ansible
         NODES = "server"                     // Groupe d'hôtes ou variables Jenkins
-=======
         ANSIBLE_HOST_KEY_CHECKING = 'false' // Disable host key checking for simplicity
         ANSIBLE_CONFIG = '.ansible.cfg' // Path to your Ansible config file if needed
->>>>>>> 6c0281b (nouveau fichier)
     }
 
     stages {
         stage('Checkout') {
-<<<<<<< HEAD
             steps {
                 script {
                     // Vérifier le dépôt contenant le playbook Ansible
@@ -50,7 +46,6 @@ pipeline {
                     -i ${hosts} \
                     -e NODES=${NODES} \
                     """
-=======
             steps {
                 // Checkout the code from your repository
                 git url: 'https://github.com/ELkab007/CI-CD-Jenkins.git', branch: 'main'
@@ -90,14 +85,12 @@ pipeline {
                     } else {
                         echo "Deployment successful: HTTP response code ${response}"
                     }
->>>>>>> 6c0281b (nouveau fichier)
                 }
             }
         }
     }
 
     post {
-<<<<<<< HEAD
         always {
             // Archive les logs ou résultats de déploiement
             archiveArtifacts artifacts: '**/playbook.log', allowEmptyArchive: true
@@ -109,13 +102,11 @@ pipeline {
 
         failure {
             echo 'Playbook failed.'
-=======
         success {
             echo 'Pipeline completed successfully!'
         }
         failure {
             echo 'Pipeline failed!'
->>>>>>> 6c0281b (nouveau fichier)
         }
     }
 }
