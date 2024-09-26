@@ -14,7 +14,7 @@ pipeline {
             steps {
                 script {
                     // Vérifier le dépôt contenant le playbook Ansible
-                    checkout scm
+                    git url: 'https://github.com/ELkab007/CI-CD-Jenkins.git' branch: 'main'
                 }
             }
         }
@@ -43,7 +43,7 @@ pipeline {
             steps {
                 script {
                     // Exécuter le playbook Ansible pour déployer WordPress
-                    sh "ansible-playbook ${ANSIBLE_PLAYBOOK} -i ${INVENTORY_FILE} -e NODES=${NODES}"
+                    sh "ansible-playbook wordpress.yaml -e  NODES=server"
                 }
             }
         }
