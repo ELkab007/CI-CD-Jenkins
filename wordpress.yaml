@@ -1,0 +1,46 @@
+---
+- name: Deploy WordPress stack on Docker
+  hosts: "{{ NODES }}"
+#  become: yes
+  vars:
+    db_volume: 'mariadb'
+    wordpress: 'wordpress'
+    mysql_root_password: 'secretrootpassword'
+    mysql_username: 'wordpressuser'
+    mysql_password: 'secretpassword'
+    mysql_database: 'wordpressdb'
+    container_port: 8082
+  tasks:
+    - name: Deploy MariaDB server using host network
+      community.docker.docker_container:
+        state: started
+        image: mariadb
+        name: mariadb
+        volumes:
+          - "{{ db_volume }}:/var/lib/mysql"
+        env:
+          MYSQL_ROOT_PASSWORD: "{{ mysql_root_password }}"
+          MYSQL_PASSWORD: "{{ mysql_password }}"
+          MYSQL_DATABASE: "{{ mysql_database }}"
+          MYSQL_USER: "{{ mysql_username }}"
+        network_mode: host  # Use host network for MariaDB
+
+    - name: Get the host IP address
+      command: hostname -I
+      register: host_ip
+
+    - name: Deploy WordPress
+      community.docker.docker_container:
+        state: started  
+        image: wordpress
+        name: wordpress
+        restart_policy: always
+        ports:
+          - "{{ container_port }}:80"
+        volumes:
+          - "{{ wordpress }}:/var/www/html"
+        env:
+          MYSQL_PASSWORD: "{{ mysql_password }}"
+          MYSQL_DATABASE: "{{ mysql_database }}"
+          MYSQL_USER: "{{ mysql_username }}"
+          MYSQL_HOST: "{{ host_ip.stdout | regex_replace('\\s+', '') }}"  # Connect to MariaDB via host IP
